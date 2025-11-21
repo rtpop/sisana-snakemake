@@ -1,7 +1,7 @@
 ## ---------- ##
 ## Containers ##
 ## ---------- ##
-sisana_container: "docker://rtpop/sisana_container:latest"
+sisana_container: "docker://rtpop/sisana_container:0.1"
 
 ## Number of cores ##
 ncores: 30
