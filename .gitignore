@@ -6,3 +6,4 @@ log_files/
 output/
 .cache/
 tmp/
+sisana_params*
