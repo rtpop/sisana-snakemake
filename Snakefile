@@ -53,6 +53,7 @@ SISANA_DIR = os.path.join(OUTPUT_DIR, "sisana")
 
 SISANA_CONFIG = config["sisana_config"]
 OUTPUT_FORMAT = config["output_format"]
+INPUT_FORMAT = config["input_format"]
 
 ## Input files
 MOTIF_PRIOR = os.path.join(DATA_DIR, config["motif_prior_file"])
@@ -62,9 +63,10 @@ SAMPLE_ANNO = os.path.join(DATA_DIR, config["sample_anno"])
 GENE_ANNO = os.path.join(DATA_DIR, config["gene_anno"])
 
 ## output files
-EXPRESSION_FILTERED = os.path.join(SISANA_DIR, "preprocess", str(os.path.basename(EXP_FILE).replace(".csv", "") + "_preprocessed.txt"))
+EXPRESSION_FILTERED = os.path.join(SISANA_DIR, "preprocess", str(os.path.basename(EXP_FILE).replace(".txt", "") + "_preprocessed.txt"))
 PANDA_NET = os.path.join(SISANA_DIR, "network", "panda_network.txt")
-LIONESS_NET = os.path.join(SISANA_DIR, "network", "lioness_networks.npy")
+LIONESS_FILE = config["lioness_file"]
+LIONESS_NET = os.path.join(SISANA_DIR, "network", LIONESS_FILE)
 LIONESS_SAMPLES = os.path.join("tmp/samples.txt") # since sisana currently stores it here instead of the main output folder. Hopefully will be fixed with next update
 LIONESS_OUTDEGREE = os.path.join(SISANA_DIR, "network", "lioness_outdegree.csv")
 LIONESS_INDEGREE = os.path.join(SISANA_DIR, "network", "lioness_indegree.csv")
@@ -110,14 +112,15 @@ rule generate_sisana_params:
         method = config["sisana_method"], \
         pandafilepath = PANDA_NET, \
         lionessfilepath = LIONESS_NET, \
-        ncores = NCORES
+        ncores = NCORES, \
+        input_format = INPUT_FORMAT
     container:
         SISANA_CONTAINER
     message:
         "; Generating SiSaNA config file with script {params.script}"
     shell:
         """
-        python {params.script} --exp {input.exp} --motif {params.motif} --ppi {params.ppi} --number {params.number} --outdir {params.outdir} --method {params.method} --pandafilepath {params.pandafilepath} --lionessfilepath {params.lionessfilepath} --output {output.config_file}
+        python {params.script} --exp {input.exp} --motif {params.motif} --ppi {params.ppi} --number {params.number} --outdir {params.outdir} --method {params.method} --pandafilepath {params.pandafilepath} --lionessfilepath {params.lionessfilepath} --output {output.config_file} --input_format {params.input_format}
         """
 
 rule generate_networks:
@@ -178,7 +181,7 @@ rule convert_to_txt:
         lioness_txt = LIONESS_TXT, \
         lioness_edges = LIONESS_EDGES
     params:
-        script = os.path.join(SRC, "utils/convert_npy_to_txt.py")
+        script = os.path.join(SRC, "convert_npy_to_txt.py")
     container:
         SISANA_CONTAINER
     message:

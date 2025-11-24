@@ -3,14 +3,14 @@ import argparse
 import os
 
 def generate_sisana_params(exp_file, motif_file, ppi_file, number, outdir, method,
-                           pandafilepath, lionessfilepath, output_filename, ncores=10):
+                           pandafilepath, lionessfilepath, output_filename, ncores=10, input_format='csv'):
     # get the file name and append the preprocessed suffix... cos this is how sisana does things atm
     exp = os.path.join(outdir, exp_file.split('/')[-1].split('.')[0] + '_preprocessed.txt')
 
     data = {
         'preprocess': {
             'exp_file': exp_file,
-            'filetype': 'csv',
+            'filetype': input_format,
             'number': number,
             'outdir': outdir
         },
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     parser.add_argument('--pandafilepath', required=True, help='Path to PANDA output file')
     parser.add_argument('--lionessfilepath', required=True, help='Path to LIONESS output file')
     parser.add_argument('--output', required=True, help='Output YAML file name')
+    parser.add_argument('--input_format', required=False, default='csv', help='Input file format (csv or tsv)')
 
     args = parser.parse_args()
 
@@ -54,5 +55,6 @@ if __name__ == "__main__":
         method=args.method,
         pandafilepath=args.pandafilepath,
         lionessfilepath=args.lionessfilepath,
-        output_filename=args.output
+        output_filename=args.output,
+        input_format=args.input_format
     )
