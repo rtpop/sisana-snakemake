@@ -5,3 +5,4 @@ log_files/
 .vscode/
 output/
 .cache/
+tmp/
