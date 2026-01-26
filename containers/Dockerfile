@@ -1,4 +1,4 @@
-FROM python:3.10.16
+FROM python:3.14
 
 ## Author: Romana Pop
 ## Date November 2025
