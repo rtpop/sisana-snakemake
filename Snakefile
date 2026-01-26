@@ -36,36 +36,35 @@ import time
 global CONFIG_PATH
 CONFIG_PATH = "config.yaml"
 configfile: CONFIG_PATH
-NCORES = config["ncores"]
+NCORES = config.get("ncores", 1)
 
 # Containers
-SISANA_CONTAINER = config["sisana_container"]
+SISANA_CONTAINER = config.get("sisana_container", "docker://rtpop/sisana_container:latest")
 
 # Directories
-DATA_DIR = config["data_dir"]
-OUTPUT_DIR = config["output_dir"]
-SRC = config["src_dir"]
+DATA_DIR = config.get("data_dir", "data")
+OUTPUT_DIR = config.get("output_dir", "output")
+SRC = config.get("src_dir", "src")
 SISANA_DIR = os.path.join(OUTPUT_DIR, "sisana")
 
 ## ----------------- ##
 ## SiSaNA parameters ##
 ## ----------------- ##
 
-SISANA_CONFIG = config["sisana_config"]
-OUTPUT_FORMAT = config["output_format"]
-INPUT_FORMAT = config["input_format"]
+SISANA_CONFIG = config.get("sisana_config", "sisana_config.yaml")
+OUTPUT_FORMAT = config.get("output_format", "RData")
+INPUT_FORMAT = config.get("input_format", "txt")
 
 ## Input files
-MOTIF_PRIOR = os.path.join(DATA_DIR, config["motif_prior_file"])
-PPI_PRIOR = os.path.join(DATA_DIR, config["ppi_prior_file"])
-EXP_FILE = os.path.join(DATA_DIR, config["exp_file"])
-SAMPLE_ANNO = os.path.join(DATA_DIR, config["sample_anno"])
-GENE_ANNO = os.path.join(DATA_DIR, config["gene_anno"])
-
+MOTIF_PRIOR = os.path.join(DATA_DIR, config.get("motif_prior_file", "motif_prior.txt"))
+PPI_PRIOR = os.path.join(DATA_DIR, config.get("ppi_prior_file", "ppi_prior.txt"))
+EXP_FILE = os.path.join(DATA_DIR, config.get("exp_file", "exp.txt"))
+SAMPLE_ANNO = os.path.join(DATA_DIR, config.get("sample_anno", "sample_anno.txt"))
+GENE_ANNO = os.path.join(DATA_DIR, config.get("gene_anno", "gene_anno.txt"))
 ## output files
 EXPRESSION_FILTERED = os.path.join(SISANA_DIR, "preprocess", str(os.path.basename(EXP_FILE).replace(".txt", "") + "_preprocessed.txt"))
 PANDA_NET = os.path.join(SISANA_DIR, "network", "panda_network.txt")
-LIONESS_FILE = config["lioness_file"]
+LIONESS_FILE = config.get("lioness_file", "lioness_network.npy")
 LIONESS_NET = os.path.join(SISANA_DIR, "network", LIONESS_FILE)
 LIONESS_SAMPLES = os.path.join("tmp/samples.txt") # since sisana currently stores it here instead of the main output folder. Hopefully will be fixed with next update
 LIONESS_OUTDEGREE = os.path.join(SISANA_DIR, "network", "lioness_outdegree.csv")
