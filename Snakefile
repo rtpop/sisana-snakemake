@@ -63,7 +63,7 @@ SAMPLE_ANNO = os.path.join(DATA_DIR, config.get("sample_anno", "sample_anno.txt"
 GENE_ANNO = os.path.join(DATA_DIR, config.get("gene_anno", "gene_anno.txt"))
 ## output files
 EXPRESSION_FILTERED = os.path.join(SISANA_DIR, "preprocess", str(os.path.basename(EXP_FILE).replace(".txt", "") + "_preprocessed.txt"))
-PANDA_NET = os.path.join(SISANA_DIR, "network", "panda_network.txt")
+PANDA_NET = os.path.join(SISANA_DIR, "network", config["panda_file"])
 LIONESS_FILE = config.get("lioness_file", "lioness_network.npy")
 LIONESS_NET = os.path.join(SISANA_DIR, "network", LIONESS_FILE)
 LIONESS_SAMPLES = os.path.join("tmp/samples.txt") # since sisana currently stores it here instead of the main output folder. Hopefully will be fixed with next update
