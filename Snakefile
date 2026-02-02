@@ -117,10 +117,8 @@ rule generate_sisana_params:
         SISANA_CONTAINER
     message:
         "; Generating SiSaNA config file with script {params.script}"
-    shell:
-        """
-        python {params.script} --exp {input.exp} --motif {params.motif} --ppi {params.ppi} --number {params.number} --outdir {params.outdir} --method {params.method} --pandafilepath {params.pandafilepath} --lionessfilepath {params.lionessfilepath} --output {output.config_file} --input_format {params.input_format}
-        """
+    script:
+        "{params.script}"
 
 rule generate_networks:
     """
@@ -185,7 +183,5 @@ rule convert_to_txt:
         SISANA_CONTAINER
     message:
         "; Converting LIONESS networks from npy to txt."
-    shell:
-        """
-        python {params.script} --input {input.lioness} --output {output.lioness_txt} --pickle {input.lioness_pickle} --edges {output.lioness_edges}
-        """
+    script:
+        "{params.script}"

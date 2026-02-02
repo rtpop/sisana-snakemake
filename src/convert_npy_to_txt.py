@@ -16,12 +16,9 @@ def convert_npy_to_txt(npy_file, txt_file, pickle_file, lioness_edges):
     
     np.savetxt(txt_file, data, fmt='%.6g', delimiter='\t')
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert npy file to txt.")
-    parser.add_argument("--input", required=True, help="Path to the input npy file.")
-    parser.add_argument("--output", required=True, help="Path to the output file.")
-    parser.add_argument("--pickle", required=True, help="Path to the pickle file containing metadata.")
-    parser.add_argument("--edges", required=True, help="Path to the output edges text file.")
-    args = parser.parse_args()
+input_file = snakemake.input.lioness
+output_file = snakemake.output.lioness_txt
+pickle_file = snakemake.input.lioness_pickle
+edges_file = snakemake.output.lioness_edges
 
-    convert_npy_to_txt(args.input, args.output, args.pickle, args.edges)
+convert_npy_to_txt(input_file, output_file, pickle_file, edges_file)
